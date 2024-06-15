@@ -35,7 +35,7 @@ public class GameServiceImpl implements GameService {
         int boardSize = game.getBoardSize();
         String[][] board = new String[boardSize][boardSize];
         game.getGameActions()
-                .forEach(action -> board[action.getRow()][action.getCol()] = action.getGameSymbol().name());
+                .forEach(action -> board[action.getRowIndex()][action.getColIndex()] = action.getGameSymbol().name());
         return board;
     }
 

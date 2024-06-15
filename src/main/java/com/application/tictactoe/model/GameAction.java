@@ -31,10 +31,10 @@ public class GameAction {
     private Integer turn;
 
     @NonNull
-    private Integer row;
+    private Integer rowIndex;
 
     @NonNull
-    private Integer col;
+    private Integer colIndex;
 
     @NonNull
     @Enumerated(EnumType.STRING)
