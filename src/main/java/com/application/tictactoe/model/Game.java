@@ -1,7 +1,10 @@
 package com.application.tictactoe.model;
 
+import com.application.tictactoe.enums.GameState;
+import com.application.tictactoe.enums.GameSymbol;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -10,8 +13,9 @@ import java.util.Set;
 @Table(name = "games")
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,23 +25,21 @@ public class Game {
     @ManyToOne
     private Player player;
 
-    @NonNull
-    @ManyToOne
-    private Player winner;
+    @Enumerated(EnumType.STRING)
+    private GameSymbol winner;
 
-    @NonNull
     @OneToMany(mappedBy = "game")
     private Set<GameAction> gameActions;
 
     @NonNull
-    private String board;
+    @Enumerated(EnumType.STRING)
+    private GameState state = GameState.IN_PROGRESS;
 
     @NonNull
-    private Integer size;
+    private Integer boardSize;
 
-    @NonNull
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    @NonNull
     private LocalDateTime endedAt;
 }

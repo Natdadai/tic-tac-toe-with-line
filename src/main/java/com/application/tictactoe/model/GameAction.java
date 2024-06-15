@@ -1,7 +1,9 @@
 package com.application.tictactoe.model;
 
+import com.application.tictactoe.enums.GameSymbol;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class GameAction {
     @Id
@@ -25,11 +28,18 @@ public class GameAction {
     private Game game;
 
     @NonNull
-    private String move;
-
-    @NonNull
     private Integer turn;
 
     @NonNull
+    private Integer row;
+
+    @NonNull
+    private Integer col;
+
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private GameSymbol gameSymbol;
+
+    @CreatedDate
     private LocalDateTime createdAt;
 }

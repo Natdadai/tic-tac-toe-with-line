@@ -13,17 +13,16 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NonNull
     @OneToMany(mappedBy = "player")
     private Set<Game> games;
 
-    @NonNull
     @OneToMany(mappedBy = "player")
     private Set<GameAction> gameActions;
 
@@ -34,9 +33,9 @@ public class Player {
     private String displayName;
 
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedAt;
 }
 

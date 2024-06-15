@@ -14,3 +14,11 @@ spring.docker.compose.file=docker-compose.yaml
 
 # DevTools
 spring.devtools.restart.enabled=true
+
+# Line
+line.bot.channel-secret=
+line.bot.channel-token=
+line.bot.handler.path=/callback
+
+# Game settings
+game.max.board.size=3
