@@ -1,5 +1,18 @@
-version: '3'
 services:
+  line-webhook:
+    container_name: line-webhook
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    volumes:
+      - '.:/app/line-webhook'
+    depends_on:
+      - mysql
+    networks:
+      - spring-boot
+
   mysql:
     image: 'mysql:latest'
     environment:
@@ -11,7 +24,13 @@ services:
       - '3306:3306'
     volumes:
       - 'mysql:/var/lib/mysql'
+    networks:
+      - spring-boot
 
 volumes:
   mysql:
     driver: local
+
+networks:
+  spring-boot:
+    driver: bridge

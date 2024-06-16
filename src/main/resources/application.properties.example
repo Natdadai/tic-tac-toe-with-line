@@ -1,0 +1,20 @@
+spring.application.name=tictactoe
+
+# Database
+spring.jpa.hibernate.ddl-auto=update
+spring.jackson.time-zone=Asia/Bangkok
+spring.datasource.url=jdbc:mysql://mysql:3306/tictactoe
+spring.datasource.username=
+spring.datasource.password=
+
+# DevTools
+spring.devtools.restart.enabled=true
+
+# Line
+line.bot.channel-secret=
+line.bot.channel-token=
+line.bot.handler.path=/callback
+
+# Game settings
+game.max.board.size=3
+game.max.depth=3
