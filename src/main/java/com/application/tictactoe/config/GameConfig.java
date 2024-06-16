@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import static java.lang.Math.max;
 
 @Configuration
-@EnableJpaAuditing
 public class GameConfig {
     @Getter
     private static int maxBoardSize;

@@ -36,4 +36,14 @@ public class GameActionServiceImpl implements GameActionService {
         int[] move = MinimaxUtils.findBestMove(game.getBoard(), 0, true);
         makeMove(playerService.getBotPlayer(), game, GameSymbol.getComputerSymbol(), move[1], move[2]);
     }
+
+    @Override
+    public boolean checkPositionOccupied(Game game, int row, int col) {
+        return game.getBoard()[row][col] != null;
+    }
+
+    @Override
+    public boolean checkPositionOutOfBounds(Game game, int row, int col) {
+        return row < 0 || row >= game.getBoardSize() || col < 0 || col >= game.getBoardSize();
+    }
 }

@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 
 @Service
@@ -44,6 +45,7 @@ public class GameServiceImpl implements GameService {
         if (gameResult != null) {
             game.setGameResult(gameResult);
             game.setState(GameState.ENDED);
+            game.setEndedAt(LocalDateTime.now());
             updateGame(game);
             return true;
         }
