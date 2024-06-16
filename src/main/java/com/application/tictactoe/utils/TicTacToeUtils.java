@@ -1,7 +1,7 @@
 package com.application.tictactoe.utils;
 
+import com.application.tictactoe.enums.GameResult;
 import com.application.tictactoe.enums.GameSymbol;
-import com.application.tictactoe.model.Game;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -17,22 +17,38 @@ public class TicTacToeUtils {
         return String.join("\n----".repeat(board[0].length) + "\n", rows);
     }
 
-    public GameSymbol checkWinner(String[][] board, int boardSize) {
+    public GameResult checkGameResult(String[][] board, int boardSize) {
+        if (checkGameEnd(board)) {
+            return GameResult.DRAW;
+        }
+
         GameSymbol winner = checkRows(board, boardSize);
         if (winner != null) {
-            return winner;
+            return GameSymbol.getGameResult(winner);
         }
 
         winner = checkCols(board, boardSize);
         if (winner != null) {
-            return winner;
+            return GameSymbol.getGameResult(winner);
         }
 
-        return checkDiagonals(board, boardSize);
+        winner = checkDiagonals(board, boardSize);
+        if (winner != null) {
+            return GameSymbol.getGameResult(winner);
+        }
+
+        return null;
     }
 
-    public boolean checkGameDraw(Game game) {
-        return game.getGameActions().size() == game.getBoardSize() * game.getBoardSize();
+    private boolean checkGameEnd(String[][] board) {
+        for (String[] row : board) {
+            for (String cell : row) {
+                if (cell == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private GameSymbol checkRows(String[][] board, int boardSize) {
@@ -40,7 +56,7 @@ public class TicTacToeUtils {
             if (board[i][0] != null) {
                 boolean win = true;
                 for (int j = 1; j < boardSize; j++) {
-                    if (!board[i][j].equals(board[i][0])) {
+                    if (board[i][j] == null || !board[i][j].equals(board[i][0])) {
                         win = false;
                         break;
                     }
@@ -58,7 +74,7 @@ public class TicTacToeUtils {
             if (board[0][i] != null) {
                 boolean win = true;
                 for (int j = 1; j < boardSize; j++) {
-                    if (!board[j][i].equals(board[0][i])) {
+                    if (board[j][i] == null || !board[j][i].equals(board[0][i])) {
                         win = false;
                         break;
                     }
@@ -75,7 +91,7 @@ public class TicTacToeUtils {
         if (board[0][0] != null) {
             boolean win = true;
             for (int i = 1; i < boardSize; i++) {
-                if (!board[i][i].equals(board[0][0])) {
+                if (board[i][i] == null || !board[i][i].equals(board[0][0])) {
                     win = false;
                     break;
                 }
@@ -87,7 +103,7 @@ public class TicTacToeUtils {
         if (board[0][boardSize - 1] != null) {
             boolean win = true;
             for (int i = 1; i < boardSize; i++) {
-                if (!board[i][boardSize - i - 1].equals(board[0][boardSize - 1])) {
+                if (board[i][boardSize - i - 1] == null || !board[i][boardSize - i - 1].equals(board[0][boardSize - 1])) {
                     win = false;
                     break;
                 }
