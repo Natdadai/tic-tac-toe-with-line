@@ -12,9 +12,10 @@ public class TicTacToeUtils {
     public String getBoardString(String[][] board) {
         List<String> rows = new ArrayList<>();
         for (String[] row : board) {
-            rows.add(String.join(" | ", row));
+            String rowString = String.join(" | ", row);
+            rows.add(rowString.replace("null", " "));
         }
-        return String.join("\n----".repeat(board[0].length) + "\n", rows);
+        return String.join("\n" + "----".repeat(board[0].length) + "\n", rows);
     }
 
     public GameResult checkGameResult(String[][] board, int boardSize) {
