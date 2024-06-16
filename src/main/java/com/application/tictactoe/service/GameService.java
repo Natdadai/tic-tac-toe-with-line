@@ -6,13 +6,11 @@ import com.application.tictactoe.model.Player;
 public interface GameService {
     void initGame(Player player, int boardSize);
 
-    Game getLatestGameByPlayerAndNotEnded(Player player);
+    boolean checkGameEnd(Game game);
 
-    Game getLatestGameByPlayer(Player player);
+    Game getLatestGameByPlayerAndNotEnded(Player player);
 
     void updateGame(Game game);
 
-    String[][] getBoard(Game game);
-
-    boolean checkGameEnd(Game game);
+    boolean isPlayerTurn(Game game);
 }

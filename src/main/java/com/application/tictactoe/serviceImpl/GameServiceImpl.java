@@ -1,8 +1,9 @@
 package com.application.tictactoe.serviceImpl;
 
+import com.application.tictactoe.enums.GameResult;
 import com.application.tictactoe.enums.GameState;
-import com.application.tictactoe.enums.GameSymbol;
 import com.application.tictactoe.model.Game;
+import com.application.tictactoe.model.GameAction;
 import com.application.tictactoe.model.Player;
 import com.application.tictactoe.repository.GameRepository;
 import com.application.tictactoe.service.GameService;
@@ -10,6 +11,9 @@ import com.application.tictactoe.service.PlayerService;
 import com.application.tictactoe.utils.TicTacToeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +27,6 @@ public class GameServiceImpl implements GameService {
                 player,
                 boardSize
         );
-        gameRepository.save(game);
 
         // Add game to player
         player.getGames().add(game);
@@ -31,30 +34,15 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public String[][] getBoard(Game game) {
-        int boardSize = game.getBoardSize();
-        String[][] board = new String[boardSize][boardSize];
-        game.getGameActions()
-                .forEach(action -> board[action.getRowIndex()][action.getColIndex()] = action.getGameSymbol().name());
-        return board;
-    }
-
-    @Override
+    @Transactional
     public boolean checkGameEnd(Game game) {
-        String[][] board = getBoard(game);
+        String[][] board = game.getBoard();
         int boardSize = game.getBoardSize();
 
-        // Check if the game has a winner
-        GameSymbol winner = TicTacToeUtils.checkWinner(board, boardSize);
-        if (winner != null) {
-            game.setState(GameState.ENDED);
-            game.setWinner(winner);
-            updateGame(game);
-            return true;
-        }
-
-        // Check if the game is a draw
-        if (TicTacToeUtils.checkGameDraw(game)) {
+        // Check if the game has a gameResul
+        GameResult gameResult = TicTacToeUtils.checkGameResult(board, boardSize);
+        if (gameResult != null) {
+            game.setGameResult(gameResult);
             game.setState(GameState.ENDED);
             updateGame(game);
             return true;
@@ -69,12 +57,17 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game getLatestGameByPlayer(Player player) {
-        return gameRepository.findTopByPlayerOrderByCreatedAtDesc(player);
+    @Transactional
+    public void updateGame(Game game) {
+        gameRepository.save(game);
     }
 
     @Override
-    public void updateGame(Game game) {
-        gameRepository.save(game);
+    public boolean isPlayerTurn(Game game) {
+        GameAction lastAction = game.getGameActions()
+                .stream()
+                .max(Comparator.comparingInt(GameAction::getTurn))
+                .orElse(null);
+        return lastAction == null || lastAction.getTurn() % 2 == 0;
     }
 }
