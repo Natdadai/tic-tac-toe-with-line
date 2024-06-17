@@ -17,7 +17,7 @@
 3. Fill the `line.bot.channel-token` and `line.bot.channel-secret` with your own channel token and channel secret.
 4. You need to add your server IP to the Line Messaging API's webhook URL. You can see how to do
    it [here](https://developers.line.biz/en/docs/messaging-api/building-bot/#set-webhook-url).
-    1. The webhook URL should be `http://<your-server-ip>:8080/callback`.
+    1. The webhook URL should be `https://<your-server-ip>:8080/callback`.
     2. You can use [ngrok](https://ngrok.com/) to expose your local server to the internet.
 
 ## Settings (application.properties)
